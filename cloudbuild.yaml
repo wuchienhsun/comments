@@ -1,12 +1,15 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gsutil', 'cp', '-r', 'gs://comments-app', '.']
+    args: ['gsutil', 'cp', '-r', 'gs://comments-app/.env', './']
     waitFor: ['-']
     id: 'pull-config'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app', './']
+    waitFor: ['pull-config']
+    id: 'pull-helm-deploy'
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/comments-app:$SHORT_SHA', '.']
-    waitFor: ['pull-config']
-    id: 'build-image'
+    waitFor: ['pull-config', 'pull-helm-deploy']
   - name: gcr.io/cloud-builders/gcloud
     args:
       [
@@ -34,6 +37,7 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-east1-c'
       - 'CLOUDSDK_CONTAINER_CLUSTER=ben-site-prod'
-    waitFor: ['build-image', 'pull-config', 'prepare-credentials']
+    waitFor:
+      ['build-image', 'pull-config', 'prepare-credentials', 'pull-helm-deploy']
 tags: ['cloud-builders-community']
 images: ['gcr.io/$PROJECT_ID/comments-app']
