@@ -1,5 +1,5 @@
 const app = {
-  API_URL: 'http://localhost:3000/api/v1',
+  API_URL: 'https://comments-app.wuhsun.com/api/v1',
   USER_API_URL: 'https://random-data-api.com/api/users/random_user',
   currentUser: {
     userName: '',
