@@ -1,5 +1,6 @@
 const app = {
-  API_URL: 'https://comments-app.wuhsun.com/api/v1',
+  API_URL: window.location.href,
+  API_PATH: 'api/v1',
   USER_API_URL: 'https://random-data-api.com/api/users/random_user',
   currentUser: {
     userName: '',
@@ -354,7 +355,7 @@ app.addComment = function ({ userName, avatar, comment }) {
   return new Promise((resolve, reject) => {
     app.ajax(
       'POST',
-      `${app.API_URL}/comment`,
+      `${app.API_URL}${app.API_PATH}/comment`,
       { userName, avatar, comment },
       async (req) => {
         const { status } = JSON.parse(req.responseText);
@@ -372,7 +373,7 @@ app.upvote = function ({ commentId }) {
   return new Promise((resolve, reject) => {
     app.ajax(
       'POST',
-      `${app.API_URL}/comment/upvote`,
+      `${app.API_URL}${app.API_PATH}/comment/upvote`,
       { commentId },
       async (req) => {
         const { status } = JSON.parse(req.responseText);
@@ -388,7 +389,7 @@ app.upvote = function ({ commentId }) {
 
 app.fetchComments = function () {
   return new Promise((resolve, reject) => {
-    app.ajax('GET', `${app.API_URL}/comments`, null, (req) => {
+    app.ajax('GET', `${app.API_URL}${app.API_PATH}/comments`, null, (req) => {
       const data = JSON.parse(req.responseText).data;
       app.comments = data;
       app.displayComments();
