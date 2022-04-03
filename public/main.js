@@ -14,6 +14,9 @@ app.init = async function () {
   await app.fetchComments();
   let addCommentBtn = app.get('#addCommentBtn');
   addCommentBtn.addEventListener('click', app.addCommentEvent);
+};
+
+app.registerUpvoteEvent = function () {
   let upvoteBtn = app.getAll('#upvote-btn');
   upvoteBtn.forEach((el) => {
     el.addEventListener('click', app.upvoteEvent);
@@ -230,6 +233,7 @@ app.displayComments = function () {
       );
       app.displayComment(comment, commentContainer);
     }
+    app.registerUpvoteEvent();
   }
 };
 
