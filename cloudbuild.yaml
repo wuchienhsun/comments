@@ -10,6 +10,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/comments-app:$SHORT_SHA', '.']
     waitFor: ['pull-config', 'pull-helm-deploy']
+    id: 'build-image'
   - name: gcr.io/cloud-builders/gcloud
     args:
       [
