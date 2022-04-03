@@ -1,0 +1,44 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <script src='https://cdn.tailwindcss.com'></script>
+    <script src='./main.js'></script>
+    <title>ghost</title>
+  </head>
+  <body>
+    {{! container }}
+    <div class='ml-[49px] mr-[54px] mt-[38px]'>
+      {{! title }}
+      <div class='font-bold text-[18px]'>
+        Discussion
+      </div>
+      {{! add comment part }}
+      <div class='mt-[31px] mb-[44px] flex items-center'>
+        {{! user avater }}
+        <div
+          id='avater'
+          class='w-[30px] h-[30px] rounded-[42.25px] mr-[12px]'
+        ></div>
+        {{! input }}
+        <input
+          id='addComment'
+          class='w-[542px] h-[30px] border-2 border-[#E5E5E5] rounded-[4px] mr-[13px] placeholder:pl-[10px] placeholder:text-[11px] placeholder:font-[500] placeholder:text-[#8A8F9C]'
+          type='text'
+          placeholder='What are your thoughts?'
+        />
+        {{! button }}
+        <button
+          id='addCommentBtn'
+          class='w-[83px] h-[30px] bg-[#7E34F6] rounded-[4px] text-[11px] text-white font-bold'
+        >Comment</button>
+      </div>
+      <hr />
+      {{! list comments }}
+      <div id='comments' class='mt-[40px]'>
+      </div>
+
+    </div>
+  </body>
+</html>
