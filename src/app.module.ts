@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,9 +8,12 @@ import { Comment } from './comment/comment.entity';
 import { CommentModule } from './comment/comment.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { EventsModule } from './events/events.module';
+import { EventsGateway } from './events/events.gateway';
 
 @Module({
   imports: [
+    CacheModule.register(),
     ConfigModule.forRoot({
       envFilePath: '.env',
       load: [configuration],
@@ -26,8 +29,9 @@ import configuration from './config/configuration';
       // synchronize: true,
     }),
     CommentModule,
+    EventsModule,
   ],
   controllers: [AppController, CommentController],
-  providers: [AppService, CommentService],
+  providers: [AppService, CommentService, EventsGateway],
 })
 export class AppModule {}

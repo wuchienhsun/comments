@@ -10,10 +10,14 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentService } from './comment.service';
 import { UpdateUpvoteDto } from './dto/update-upvote.dto';
 import { CreateCommentDtoV2 } from './dto/create-comment-v2.dto';
+import { EventsGateway } from 'src/events/events.gateway';
 
 @Controller('api')
 export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(
+    private readonly commentService: CommentService,
+    private readonly eventsGateway: EventsGateway,
+  ) {}
 
   @Get('v1/comments')
   async getComments(@Response() res) {
@@ -88,6 +92,7 @@ export class CommentController {
   ) {
     try {
       await this.commentService.createCommentV2(createCommentDtoV2);
+      this.eventsGateway.server.emit('reload');
       res.status(HttpStatus.CREATED).json({ status: 'success' });
     } catch (error) {
       console.error(error);
@@ -102,6 +107,7 @@ export class CommentController {
   ) {
     try {
       await this.commentService.updateUpvote(updateUpvoteDto.commentId);
+      this.eventsGateway.server.emit('reload');
       res.status(HttpStatus.CREATED).json({ status: 'success' });
     } catch (error) {
       console.error(error);

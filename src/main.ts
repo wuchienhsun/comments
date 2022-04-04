@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { NestFactory } from '@nestjs/core';
@@ -11,6 +11,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setViewEngine('hbs');
   app.enableCors();
+  Logger.log('app start at port 3000');
   await app.listen(3000);
 }
 bootstrap();
