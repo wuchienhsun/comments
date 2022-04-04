@@ -9,7 +9,8 @@
     "axios": "^0.26.1",
     "next": "latest",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "socket.io-client": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "17.0.4",
