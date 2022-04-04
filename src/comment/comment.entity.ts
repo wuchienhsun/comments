@@ -19,4 +19,7 @@ export class Comment {
 
   @Column('timestamp')
   timestamp: number;
+
+  @Column('int')
+  commentId: number | null;
 }
