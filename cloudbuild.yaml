@@ -4,13 +4,26 @@ steps:
     waitFor: ['-']
     id: 'pull-config'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app-v2', './']
+    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app', './']
     waitFor: ['pull-config']
     id: 'pull-helm-deploy'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app-v2', './']
+    waitFor: ['pull-config']
+    id: 'pull-helm-deploy-v2'
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/comments-app:$SHORT_SHA', '.']
     waitFor: ['pull-config', 'pull-helm-deploy']
-    id: 'build-image'
+    id: 'build-backend-image'
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        cd comments-front-end/ && \
+        docker build -t gcr.io/$PROJECT_ID/comments-app-v2:$SHORT_SHA .
+    waitFor: ['pull-config', 'pull-helm-deploy', 'pull-helm-deploy-v2']
+    id: 'build-v2-front-end-image'
   - name: gcr.io/cloud-builders/gcloud
     args:
       [
@@ -28,6 +41,17 @@ steps:
         '--namespace=sandbox',
         'upgrade',
         '--install',
+        'comments-app',
+        'comments-app',
+        '-f',
+        'comments-app/values.yaml',
+        '--set',
+        'image.tag=$SHORT_SHA',
+        '&&',
+        'helm',
+        '--namespace=sandbox',
+        'upgrade',
+        '--install',
         'comments-app-v2',
         'comments-app-v2',
         '-f',
@@ -39,6 +63,13 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-east1-c'
       - 'CLOUDSDK_CONTAINER_CLUSTER=ben-site-prod'
     waitFor:
-      ['build-image', 'pull-config', 'prepare-credentials', 'pull-helm-deploy']
+      [
+        'build-backend-image',
+        'build-v2-front-end-image',
+        'pull-config',
+        'prepare-credentials',
+        'pull-helm-deploy',
+        'pull-helm-deploy-v2',
+      ]
 tags: ['cloud-builders-community']
 images: ['gcr.io/$PROJECT_ID/comments-app']
