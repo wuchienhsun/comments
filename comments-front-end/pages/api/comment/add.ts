@@ -16,10 +16,15 @@ export default async function handler(
       method: 'POST',
       data: req.body,
     }
-    const result: Data = await request(options)
-
-    res.status(200).json(result)
-    return
+    try {
+      const result: Data = await request(options)
+      res.status(200).json(result)
+      return
+    } catch (error) {
+      console.log('add command err', error)
+      res.status(400).json({ status: 'error' })
+      return
+    }
   }
   res.status(404).send('Not Found')
 }

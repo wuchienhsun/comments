@@ -5,12 +5,23 @@ import { Info } from '../type/type'
 function Input({ commentId, avatar, userName }: Info) {
   const [comment, setComment] = useState('')
   const addComment = () => {
+    const data: {
+      comment: string
+      avatar: string
+      userName: string
+      commentId?: number
+    } = {
+      comment,
+      avatar,
+      userName,
+    }
+
+    if (commentId) {
+      data.commentId = commentId
+    }
     axios
       .post('https://comments-app-v2.wuhsun.com/api/comment/add', {
-        userName: userName,
-        commentId: commentId,
-        avatar: avatar,
-        comment,
+        ...data,
       })
       .then((res) => {
         if (res.data.status === 'success') {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { timeSince } from '../lib'
 import { User } from '../type/type'
@@ -25,6 +25,10 @@ function CommentComponent({
 }) {
   const [reply, setReply] = useState(false)
   const [vote, setVote] = useState(upvotes)
+
+  useEffect(() => {
+    setVote(upvotes)
+  }, [upvotes])
 
   const updateReply = () => {
     setReply(!reply)
