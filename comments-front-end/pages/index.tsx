@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   const connectWebSocket = () => {
     if (ws === null) {
-      const socket = io('https://comments-app-v2.wuhsun.com')
+      const socket = io('https://comments-app.wuhsun.com')
 
       setWs(socket)
     }
