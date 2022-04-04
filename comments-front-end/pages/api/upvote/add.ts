@@ -19,6 +19,7 @@ export default async function handler(
     const result: Data = await request(options)
 
     res.status(200).json(result)
+    return
   }
   res.status(404).send('Not Found')
 }
