@@ -4,7 +4,7 @@ steps:
     waitFor: ['-']
     id: 'pull-config'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app', './']
+    args: ['gsutil', 'cp', '-r', 'gs://comments-app/comments-app-v2', './']
     waitFor: ['pull-config']
     id: 'pull-helm-deploy'
   - name: 'gcr.io/cloud-builders/docker'
@@ -28,10 +28,10 @@ steps:
         '--namespace=sandbox',
         'upgrade',
         '--install',
-        'comments-app',
-        'comments-app',
+        'comments-app-v2',
+        'comments-app-v2',
         '-f',
-        'comments-app/values.yaml',
+        'comments-app-v2/values.yaml',
         '--set',
         'image.tag=$SHORT_SHA',
       ]
