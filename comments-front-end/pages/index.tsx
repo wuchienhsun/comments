@@ -1,15 +1,21 @@
 import axios from 'axios'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import CommentsComponent from '../components/commentsComponent'
+import useUserInfo from '../hooks/useUserInfo'
+import { Comment } from '../type/type'
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState({ userName: '', avatar: '' })
+  const [comments, setComments] = useState<Comment[]>([])
+
+  const user = useUserInfo()
+
   useEffect(() => {
-    // get user
     // get comments
-    axios.get('http://localhost:3000/api/user').then((res) => {
-      console.log('res', res)
-      setUser(res.data)
+    axios.get('http://localhost:3500/api/comment/list').then((res) => {
+      if (res.data.status === 'success') {
+        setComments(res.data.data)
+      }
     })
   }, [])
 
@@ -40,7 +46,7 @@ const Home: NextPage = () => {
       </div>
       <hr />
 
-      <div id="comments" className="mt-[40px]"></div>
+      <div id="comments">{CommentsComponent(comments, user)}</div>
     </div>
   )
 }

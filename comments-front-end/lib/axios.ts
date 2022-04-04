@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios'
 
 const backendServer = Axios.create({
-  baseURL: 'http://localhost:3500/api',
+  baseURL: 'http://localhost:3000/api',
 })
 
 export const request = (options: AxiosRequestConfig): Promise<any> =>
