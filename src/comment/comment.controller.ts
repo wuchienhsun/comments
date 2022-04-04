@@ -41,6 +41,7 @@ export class CommentController {
   ) {
     try {
       await this.commentService.createComment(createCommentDto);
+      this.eventsGateway.server.emit('reload');
       res.status(HttpStatus.CREATED).json({ status: 'success' });
     } catch (error) {
       console.error(error);
