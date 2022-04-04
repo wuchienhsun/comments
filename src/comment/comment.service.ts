@@ -23,6 +23,8 @@ export class CommentService {
       upvotes: 0,
     });
     const comments = await this.findAll();
+    comment.timestamp = Date.now();
+    comment.commentId = null;
     comments.push(comment);
     await this.cacheManager.set('comments', comments, { ttl: this.ttl });
     return comment;
@@ -37,6 +39,7 @@ export class CommentService {
     });
     const comments = await this.findAll();
     comment.timestamp = Date.now();
+    comment.commentId = comment.commentId ? comment.commentId : null;
     comments.push(comment);
     await this.cacheManager.set('comments', comments, { ttl: this.ttl });
     return comment;
