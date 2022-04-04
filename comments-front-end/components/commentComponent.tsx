@@ -32,7 +32,9 @@ function CommentComponent({
 
   const updateVote = () => {
     axios
-      .post('http://localhost:3500/api/upvote/add', { commentId: id })
+      .post('https://comments-app-v2.wuhsun.com/api/upvote/add', {
+        commentId: id,
+      })
       .then((res) => {
         if (res.data.status === 'success') {
           setVote(vote + 1)

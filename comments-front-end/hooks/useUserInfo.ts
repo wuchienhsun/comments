@@ -7,7 +7,7 @@ function useUserInfo() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      axios.get('http://localhost:3500/api/user').then((res) => {
+      axios.get('https://comments-app-v2.wuhsun.com/api/user').then((res) => {
         setUserInfo(res.data)
       })
     }

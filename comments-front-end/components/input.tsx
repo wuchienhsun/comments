@@ -6,7 +6,7 @@ function Input({ commentId, avatar, userName }: Info) {
   const [comment, setComment] = useState('')
   const addComment = () => {
     axios
-      .post('http://localhost:3500/api/comment/add', {
+      .post('https://comments-app-v2.wuhsun.com/api/comment/add', {
         userName: userName,
         commentId: commentId,
         avatar: avatar,

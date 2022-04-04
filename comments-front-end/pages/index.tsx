@@ -12,11 +12,13 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     // get comments
-    axios.get('http://localhost:3500/api/comment/list').then((res) => {
-      if (res.data.status === 'success') {
-        setComments(res.data.data)
-      }
-    })
+    axios
+      .get('https://comments-app-v2.wuhsun.com/api/comment/list')
+      .then((res) => {
+        if (res.data.status === 'success') {
+          setComments(res.data.data)
+        }
+      })
   }, [])
 
   return (
