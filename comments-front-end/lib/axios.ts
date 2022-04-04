@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig } from 'axios'
 
-const internalAPI = 'http://comments-app.sandbox.svc.cluster.local:3000'
+const internalAPI = 'http://comments-app.sandbox.svc.cluster.local:3000/api'
 const publicAPI = 'https://comments-app.wuhsun.com/api'
 
 const backendServer = Axios.create({
