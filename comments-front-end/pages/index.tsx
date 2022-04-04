@@ -68,7 +68,7 @@ const Home: NextPage = () => {
       <div className="text-[18px] font-bold">Discussion</div>
 
       <Input userName={user.userName} avatar={user.avatar} commentId={null} />
-      <hr />
+      <hr className="mt-[44px]" />
 
       <div id="comments">{CommentsComponent(comments, user)}</div>
     </div>
