@@ -36,29 +36,12 @@ steps:
       ]
     id: 'prepare-credentials'
   - name: 'gcr.io/$PROJECT_ID/helm'
+    entrypoint: /bin/sh
     args:
-      [
-        '--namespace=sandbox',
-        'upgrade',
-        '--install',
-        'comments-app',
-        'comments-app',
-        '-f',
-        'comments-app/values.yaml',
-        '--set',
-        'image.tag=$SHORT_SHA',
-        '&&',
-        'helm',
-        '--namespace=sandbox',
-        'upgrade',
-        '--install',
-        'comments-app-v2',
-        'comments-app-v2',
-        '-f',
-        'comments-app-v2/values.yaml',
-        '--set',
-        'image.tag=$SHORT_SHA',
-      ]
+      - '-c'
+      - |
+        helm --namespace=sandbox upgrade --install comments-app comments-app -f comments-app/values.yaml --set image.tag=$SHORT_SHA && \
+        helm --namespace=sandbox upgrade --install comments-app-v2 comments-app-v2 -f comments-app-v2/values.yaml --set image.tag=$SHORT_SHA
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=asia-east1-c'
       - 'CLOUDSDK_CONTAINER_CLUSTER=ben-site-prod'
@@ -72,4 +55,5 @@ steps:
         'pull-helm-deploy-v2',
       ]
 tags: ['cloud-builders-community']
-images: ['gcr.io/$PROJECT_ID/comments-app']
+images:
+  ['gcr.io/$PROJECT_ID/comments-app', 'gcr.io/$PROJECT_ID/comments-app-v2']
