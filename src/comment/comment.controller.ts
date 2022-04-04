@@ -18,8 +18,13 @@ export class CommentController {
   @Get('v1/comments')
   async getComments(@Response() res) {
     try {
-      const comments = await this.commentService.findAll();
-      res.status(HttpStatus.OK).json({ status: 'success', data: comments });
+      const comments = (await this.commentService.findAll()).filter(
+        (comment) => comment.commentId === null,
+      );
+      res.status(HttpStatus.OK).json({
+        status: 'success',
+        data: comments,
+      });
     } catch (error) {
       console.log('err', error);
       res.status(HttpStatus.BAD_REQUEST).json({ status: 'error' });

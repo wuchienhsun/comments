@@ -11,6 +11,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setViewEngine('hbs');
   app.enableCors();
-  await app.listen(3500);
+  await app.listen(3000);
 }
 bootstrap();
